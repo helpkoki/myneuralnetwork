@@ -10,6 +10,13 @@ class ReluActivation:
     def relu_derivative(self, x):
         return np.where(x > 0, 1, 0)
     
+    def backword(self,dvalues):
+
+        self.dinput = dvalues.copy()
+        self.dinput[dvalues > 0]
+
+         
+    
 class SigmoidActivation:
     def __init__(self):
         pass
