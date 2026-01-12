@@ -1,1 +1,16 @@
-./notgitfile
+notgitfile/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environments
+venv/
+.env/
+
+# IDE
+.vscode/
+
+# OS junk
+.DS_Store
+Thumbs.db
