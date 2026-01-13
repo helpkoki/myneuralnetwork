@@ -13,3 +13,10 @@ class NeuralLayer:
         self.inputs = inputs
         self.outputs = np.dot(inputs, self.weights) + self.biases
         return self.outputs
+    
+    def backward(self, dvalues):
+        # Gradient on parameters
+        self.dweights =np.dot(self.inputs.T , dvalues)
+        self.biases = np.sum(dvalues , axis=0 ,keepdims=True)
+        # Gradient on values
+        self.dinputs =np.dot(dvalues , self.weights.T)
