@@ -1,3 +1,5 @@
+# Neural Network From Scratch This repository implements a simple neural network framework from scratch using **NumPy**. Below is the organized project structure:
+
 neural-network-from-scratch/
 │
 ├── data/

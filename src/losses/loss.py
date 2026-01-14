@@ -4,7 +4,7 @@ class CrossEntropyLoss:
     def __init__(self):
         pass
     #when on activation is done
-    def compute_loss(self, y_true, y_pred):
+    def compute_loss_softmax(self, y_true, y_pred):
         m = y_true.shape[0]
         p = self._softmax(y_pred)
         log_likelihood = -np.log(p[range(m), y_true.argmax(axis=1)])
@@ -14,6 +14,14 @@ class CrossEntropyLoss:
     def _softmax(self, x):
         exp_x = np.exp(x - np.max(x, axis=1, keepdims=True))
         return exp_x / np.sum(exp_x, axis=1, keepdims=True)
+    
+    def backward_with_repect_softmax(self ,y_true):
+        samples =len(y_true)
+        self.dinput = self.output.copy()
+        self.dinput[range(samples) , y_true] -=1
+        self.dinput /= samples
+        return self.dinput
+      
     
     def forward(self, y_true, y_pred):
 

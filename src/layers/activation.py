@@ -5,15 +5,19 @@ class ReluActivation:
         pass
 
     def relu(self, x):
-        return np.maximum(0, x)
+        self.input = np.maximum(0, x)
+        return self.input
     
     def relu_derivative(self, x):
         return np.where(x > 0, 1, 0)
     
-    def backword(self,dvalues):
+    def backward (self,dvalues):
 
         self.dinput = dvalues.copy()
-        self.dinput[dvalues > 0]
+        self.dinput[self.input <=0] =0
+        
+        return self.dinput
+        
 
          
     
@@ -26,6 +30,10 @@ class SigmoidActivation:
     
     def sigmoid_derivative(self, x):
         return x * (1 - x)  # x is sigmoid(x)
+    
+    def backward(self, dvalues):
+        self.dinput = dvalues * (self.input * (1 - self.input))
+        return self.dinput
     
 class TanhActivation:
     def __init__(self):
