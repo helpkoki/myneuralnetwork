@@ -4,7 +4,7 @@ class ReluActivation:
     def __init__(self):
         pass
 
-    def relu(self, x):
+    def forward(self, x):
         self.input = np.maximum(0, x)
         return self.input
     
@@ -18,15 +18,13 @@ class ReluActivation:
         
         return self.dinput
         
-
-         
-    
 class SigmoidActivation:
     def __init__(self):
         pass
 
-    def sigmoid(self, x):
-        return 1 / (1 + np.exp(-x))
+    def forward(self, x):
+        self.input = 1 / (1 + np.exp(-x))
+        return self.input
     
     def sigmoid_derivative(self, x):
         return x * (1 - x)  # x is sigmoid(x)
@@ -39,7 +37,7 @@ class TanhActivation:
     def __init__(self):
         pass
 
-    def tanh(self, x):
+    def forward(self, x):
         return np.tanh(x)
     
     def tanh_derivative(self, x):
@@ -49,7 +47,7 @@ class SoftmaxActivation:
     def __init__(self):
         pass
 
-    def softmax(self, x):
+    def forward(self, x):
         exp_x = np.exp(x - np.max(x, axis=1, keepdims=True))
         return exp_x / np.sum(exp_x, axis=1, keepdims=True)
     
@@ -57,7 +55,9 @@ class SoftmaxActivation:
         s = self.softmax(x)
         return s * (1 - s)  # Note: This is a simplification; the full Jacobian is more complex
     
-
+    def backward(self, dvalues):
+        self.dinput = dvalues  # Placeholder; usually combined with loss derivative
+        return self.dinput
 
     
 class ActivationFactory:
