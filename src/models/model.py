@@ -1,4 +1,5 @@
 import numpy as np
+import os
 
 class Model:
     def __init__(self):
@@ -25,6 +26,15 @@ class Model:
         if optimizer == 'sgd':
             from ..optim.sgd import StochasticGradientDescent
             self.optimizer = StochasticGradientDescent(learning_rate=lr)
+        elif optimizer == 'adagrad':
+            from ..optim.adagrad import AdagradOptimizer
+            self.optimizer = AdagradOptimizer(learning_rate=lr)
+        elif optimizer == 'adam':
+            from ..optim.adam import AdamOptimizer
+            self.optimizer = AdamOptimizer(learning_rate=lr)
+        elif optimizer == 'rmsprop':
+            from ..optim.RMSprop import RMSPropOptimizer
+            self.optimizer = RMSPropOptimizer(learning_rate=lr)
 
 
 
@@ -94,4 +104,19 @@ class Model:
             y_true = np.argmax(y_true, axis=1)
 
         return np.mean(y_pred_labels == y_true)
+    
+    def get_params(self):
+        params = []
+        for layer in self.layers:
+            if hasattr(layer, "weights"):
+                params.append((layer.weights, layer.biases))
+        return params
+    
+    def save_model(self, filepath):
+        if not os.path.exists(os.path.dirname(filepath)):
+            os.makedirs(os.path.dirname(filepath))
+        np.savez_compressed(filepath, *self.get_params())
+        
+       
+
 
